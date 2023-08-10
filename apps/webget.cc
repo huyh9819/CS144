@@ -11,6 +11,23 @@ void get_URL( const string& host, const string& path )
 {
   cerr << "Function called: get_URL(" << host << ", " << path << ")\n";
   cerr << "Warning: get_URL() has not been implemented yet.\n";
+  Address const address(host, "http"); // create an address based on the hostname and the type of service (http)
+  TCPSocket tcpSocket {}; // create a TCPSocket instance
+  tcpSocket.connect(address); // make the TCPSocket instance connect to the address
+  // write the request
+  tcpSocket.write("GET " + path + " HTTP/1.1\r\n");
+  tcpSocket.write("Host: " + host + "\r\n");
+  tcpSocket.write("Connection: close\r\n\r\n");
+
+  // keeps reading the buffer from the requested address
+  while (!tcpSocket.eof()) {
+    string buffer;
+    tcpSocket.read(buffer);
+    cout << buffer;
+    buffer.clear();
+  }
+  tcpSocket.close();
+
 }
 
 int main( int argc, char* argv[] )
