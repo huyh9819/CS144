@@ -13,6 +13,11 @@ class ByteStream
 protected:
   uint64_t capacity_;
   // Please add any additional state to the ByteStream here, and not to the Writer and Reader interfaces.
+  std::deque<char> buffer_queue;
+  size_t bytes_written;
+  size_t bytes_read;
+  bool is_error = false;
+  bool is_over = false;
 
 public:
   explicit ByteStream( uint64_t capacity );
